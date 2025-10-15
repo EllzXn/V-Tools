@@ -1,0 +1,1100 @@
+#!/bin/bash
+clear_screen() {
+    clear
+}
+show_header() {
+    clear_screen
+    echo "========================================"
+    if command -v neofetch &> /dev/null; then
+        neofetch --ascii_distro "Kali"
+    elif command -v screenfetch &> /dev/null; then
+        screenfetch -D "Kali"
+    else
+        echo "  _____  _   _   ____   _____ ______ "
+        echo " |  __ \| \ | | |  _ \ / ____|  ____|"
+        echo " | |__) |  \| | | |_) | |  __| |__   "
+        echo " |  ___/| . \ | |  _ <| | |_ |  __|  "
+        echo " | |    | |\  | | |_) | |__| | |____ "
+        echo " |_|    |_| \_| |____/ \_____|______|"
+        echo "                                      "
+        echo "          GOBLOK API Tools            "
+        echo "========================================"
+    fi
+    echo "========================================"
+    echo ""
+}
+pause() {
+    read -p "Tekan Enter untuk kembali ke menu..."
+    show_menu
+}
+exit_script() {
+    echo "Keluar dari script. Sampai jumpa!"
+    exit 0
+}
+urlencode() {
+    local string="${1}"
+    local encoded=""
+    local pos c
+
+    for (( pos=0; pos<${#string}; pos++ )); do
+        c=${string:$pos:1}
+        case "$c" in
+            [-_.~a-zA-Z0-9] ) encoded+="$c" ;;
+            * ) printf -v encoded "%s%%%02X" "$encoded" "'$c" ;;
+        esac
+    done
+    echo "${encoded}"
+}
+npm_search() {
+    show_header
+    echo "=== Pencarian Paket NPM ==="
+    read -p "Masukkan nama paket npm yang dicari (contoh: node-fetch): " package_name
+    if [ -z "$package_name" ]; then
+        package_name="node-fetch"
+        echo "Input kosong, menggunakan contoh: $package_name"
+    fi
+    encoded_package=$(urlencode "$package_name")
+    url="https://api.fikmydomainsz.xyz/search/npm?q=${encoded_package}"
+    echo "Mengambil data dari: $url"
+    curl -s "$url" | jq '.'
+    pause
+}
+github_stalk() {
+    show_header
+    echo "=== Stalk Profil GitHub ==="
+    read -p "Masukkan username GitHub (contoh: yanz-iyyo): " username
+    if [ -z "$username" ]; then
+        username="yanz-iyyo"
+        echo "Input kosong, menggunakan contoh: $username"
+    fi
+    encoded_username=$(urlencode "$username")
+    url="https://api.fikmydomainsz.xyz/stalk/github?username=${encoded_username}"
+    echo "Mengambil data dari: $url"
+    curl -s "$url" | jq '.'
+    pause
+}
+tiktok_stalk() {
+    show_header
+    echo "=== Stalk Profil TikTok ==="
+    read -p "Masukkan username TikTok (contoh: oe_kontol): " username
+    if [ -z "$username" ]; then
+        username="oe_kontol"
+        echo "Input kosong, menggunakan contoh: $username"
+    fi
+    encoded_username=$(urlencode "$username")
+    url="https://api.fikmydomainsz.xyz/stalk/tiktok?username=${encoded_username}"
+    echo "Mengambil data dari: $url"
+    curl -s "$url" | jq '.'
+    pause
+}
+web_check() {
+    show_header
+    echo "=== Pemeriksa Status Website ==="
+    read -p "Masukkan URL website (contoh: smpn1pekanbaru.sch.id): " website_url
+    if [ -z "$website_url" ]; then
+        website_url="smpn1pekanbaru.sch.id"
+        echo "Input kosong, menggunakan contoh: $website_url"
+    fi
+    encoded_url=$(urlencode "$website_url")
+    url="https://api.fikmydomainsz.xyz/tools/webcheck?url=${encoded_url}"
+    echo "Mengambil data dari: $url"
+    curl -s "$url" | jq '.'
+    pause
+}
+tinyurl_shorten() {
+    show_header
+    echo "=== Pemendek Tautan TinyURL ==="
+    read -p "Masukkan URL yang akan dipendekkan (contoh: Github.com): " long_url
+    if [ -z "$long_url" ]; then
+        long_url="Github.com"
+        echo "Input kosong, menggunakan contoh: $long_url"
+    fi
+    encoded_url=$(urlencode "$long_url")
+    url="https://api.fikmydomainsz.xyz/tools/tinyurl?url=${encoded_url}"
+    echo "Mengambil data dari: $url"
+    curl -s "$url" | jq '.'
+    pause
+}
+unguurl_shorten() {
+    show_header
+    echo "=== Pemendek Tautan Unguu ==="
+    read -p "Masukkan URL yang akan dipendekkan (contoh: Github.com): " long_url
+    if [ -z "$long_url" ]; then
+        long_url="Github.com"
+        echo "Input kosong, menggunakan contoh: $long_url"
+    fi
+    encoded_url=$(urlencode "$long_url")
+    url="https://api.fikmydomainsz.xyz/tools/unguurl?url=${encoded_url}"
+    echo "Mengambil data dari: $url"
+    curl -s "$url" | jq '.'
+    pause
+}
+tt_to_catbox() {
+    show_header
+    echo "=== TikTok Video ke Catbox ==="
+    read -p "Masukkan URL video TikTok (contoh: vm.tiktok.com/ZSH...): " tiktok_url
+    if [ -z "$tiktok_url" ]; then
+        tiktok_url="https://vm.tiktok.com/ZSH7tRBjD24Qt-fOXQP/"
+        echo "Input kosong, menggunakan contoh: $tiktok_url"
+    fi
+    encoded_url=$(urlencode "$tiktok_url")
+    url="https://api.fikmydomainsz.xyz/tools/tttocatbox?url=${encoded_url}"
+    echo "Mengambil data dari: $url"
+    curl -s "$url" | jq '.'
+    pause
+}
+qr_generator() {
+    show_header
+    echo "=== Pembuat Kode QR (CLI) ==="
+    read -p "Masukkan teks untuk dibuat QR (contoh: Kontol): " qr_text
+    if [ -z "$qr_text" ]; then
+        qr_text="Kontol"
+        echo "Input kosong, menggunakan contoh: $qr_text"
+    fi
+
+    if command -v qrencode &> /dev/null; then
+        echo "Menggunakan qrencode untuk menampilkan QR di terminal:"
+        echo "$qr_text" | qrencode -t UTF8
+        echo ""
+        echo "Teks asli: $qr_text"
+    else
+        echo "qrencode tidak ditemukan. Mengunduh gambar QR sebagai fallback..."
+        encoded_text=$(urlencode "$qr_text")
+        url="https://api.fikmydomainsz.xyz/tools/texttoqr?text=${encoded_text}"
+        output_file="qrcode_cli_output.png"
+        echo "Mengunduh kode QR dari: $url"
+        echo "Menyimpan sebagai: $output_file"
+        curl -s -o "$output_file" "$url"
+        if [ $? -eq 0 ]; then
+            echo "Kode QR berhasil diunduh ke $output_file"
+            echo "Silakan buka file '$output_file' untuk melihatnya."
+        else
+            echo "Gagal mengunduh kode QR."
+        fi
+    fi
+    pause
+}
+spam_ngl() {
+    show_header
+    echo "=== Spam NGL (Gunakan dengan bijak!) ==="
+    read -p "Masukkan username NGL (contoh: yanhaheho1): " ngl_user
+    if [ -z "$ngl_user" ]; then
+        ngl_user="yanhaheho1"
+        echo "Input kosong, menggunakan contoh: $ngl_user"
+    fi
+    read -p "Masukkan pesan spam (contoh: P): " message
+    if [ -z "$message" ]; then
+        message="P"
+        echo "Input kosong, menggunakan contoh: $message"
+    fi
+    read -p "Masukkan jumlah spam (contoh: 2): " count
+    if [ -z "$count" ] || ! [[ "$count" =~ ^[0-9]+$ ]]; then
+        count=2
+        echo "Input kosong atau bukan angka, menggunakan contoh: $count"
+    fi
+
+    encoded_user=$(urlencode "$ngl_user")
+    encoded_message=$(urlencode "$message")
+    url="https://api.fikmydomainsz.xyz/tools/spamngl?url=https%3A%2F%2Fngl.link%2F${encoded_user}&message=${encoded_message}&count=${count}"
+    echo "Mengirim spam ke: https://ngl.link/$ngl_user"
+    echo "Pesan: $message (x$count)"
+    echo "Mengakses: $url"
+    curl -s "$url" | jq '.'
+    echo "Spam selesai."
+    pause
+}
+send_mail() {
+    show_header
+    echo "=== Kirim Email ==="
+    read -p "Masukkan alamat email tujuan (contoh: mail@gmail.com): " to_email
+    if [ -z "$to_email" ]; then
+        to_email="mail@gmail.com"
+        echo "Input kosong, menggunakan contoh: $to_email"
+    fi
+    read -p "Masukkan subjek email (contoh: Woi): " subject
+    if [ -z "$subject" ]; then
+        subject="Woi"
+        echo "Input kosong, menggunakan contoh: $subject"
+    fi
+    read -p "Masukkan pesan email (contoh: P): " message
+    if [ -z "$message" ]; then
+        message="P"
+        echo "Input kosong, menggunakan contoh: $message"
+    fi
+
+    encoded_to=$(urlencode "$to_email")
+    encoded_subject=$(urlencode "$subject")
+    encoded_message=$(urlencode "$message")
+    url="https://api.fikmydomainsz.xyz/tools/sendmail/send?to=${encoded_to}&subject=${encoded_subject}&message=${encoded_message}"
+    echo "Mengirim email ke: $to_email"
+    echo "Subjek: $subject"
+    echo "Pesan: $message"
+    echo "Mengakses: $url"
+    curl -s "$url" | jq '.'
+    pause
+}
+nik_parser() {
+    show_header
+    echo "=== Parser NIK ==="
+    read -p "Masukkan NIK (contoh: 3304060309700002): " nik
+    if [ -z "$nik" ]; then
+        nik="3304060309700002"
+        echo "Input kosong, menggunakan contoh: $nik"
+    fi
+    url="https://api.fikmydomainsz.xyz/tools/nik?nik=$nik"
+    echo "Mengambil data dari: $url"
+    curl -s "$url" | jq '.'
+    pause
+}
+cek_cuaca() {
+    show_header
+    echo "=== Cek Cuaca ==="
+    read -p "Masukkan nama kota (contoh: Bandung): " city
+    if [ -z "$city" ]; then
+        city="Bandung"
+        echo "Input kosong, menggunakan contoh: $city"
+    fi
+    encoded_city=$(urlencode "$city")
+    url="https://api.fikmydomainsz.xyz/tools/cekcuaca?kota=${encoded_city}"
+    echo "Mengambil data dari: $url"
+    curl -s "$url" | jq '.'
+    pause
+}
+cek_voucher() {
+    show_header
+    echo "=== Cek Voucher Semua Operator ==="
+    read -p "Masukkan nomor telepon (contoh: 081234567890): " number
+    if [ -z "$number" ]; then
+        number="081234567890"
+        echo "Input kosong, menggunakan contoh: $number"
+    fi
+
+    operators=("axis" "byu" "indosat" "smartfren" "xl")
+    number_to_use="$number"
+
+    for op in "${operators[@]}"; do
+        echo "Mengecek voucher $op untuk: $number_to_use"
+        url="https://api.fikmydomainsz.xyz/voucher/$op?number=$number_to_use"
+        echo "Mengakses: $url"
+        curl -s "$url" | jq '.'
+        echo "-------------------------"
+    done
+
+    pause
+}
+get_zenzxz_apikey() {
+    if [ -z "$ZENZ_API_KEY" ]; then
+        read -s -p "Masukkan API Key untuk zenzxz (kosongkan jika tidak diperlukan): " API_KEY_INPUT
+        echo ""
+        ZENZ_API_KEY="$API_KEY_INPUT"
+    fi
+    echo "$ZENZ_API_KEY"
+}
+chat_codegemma() {
+    show_header
+    echo "=== Chat dengan CodeGemma ==="
+    read -p "Masukkan pertanyaan Anda (contoh: tools cli terbaik): " question
+    if [ -z "$question" ]; then
+        question="tools cli terbaik"
+        echo "Input kosong, menggunakan contoh: $question"
+    fi
+    encoded_question=$(urlencode "$question")
+
+    url="https://api.zenzxz.my.id/api/ai/chatai?query=${encoded_question}&model=codegemma-7b"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+chat_kimi_k2() {
+    show_header
+    echo "=== Chat dengan Kimi K2 ==="
+    read -p "Masukkan pertanyaan Anda (contoh: tools cli terbaik): " question
+    if [ -z "$question" ]; then
+        question="tools cli terbaik"
+        echo "Input kosong, menggunakan contoh: $question"
+    fi
+    encoded_question=$(urlencode "$question")
+
+    url="https://api.zenzxz.my.id/api/ai/chatai?query=${encoded_question}&model=kimi-k2-instruct"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+chat_deepseek_v3() {
+    show_header
+    echo "=== Chat dengan DeepSeek V3 ==="
+    read -p "Masukkan pertanyaan Anda (contoh: tools cli terbaik): " question
+    if [ -z "$question" ]; then
+        question="tools cli terbaik"
+        echo "Input kosong, menggunakan contoh: $question"
+    fi
+    encoded_question=$(urlencode "$question")
+
+    url="https://api.zenzxz.my.id/api/ai/chatai?query=${encoded_question}&model=deepseek-v3"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+chat_deepseek_r1() {
+    show_header
+    echo "=== Chat dengan DeepSeek R1 ==="
+    read -p "Masukkan pertanyaan Anda (contoh: tools cli terbaik): " question
+    if [ -z "$question" ]; then
+        question="tools cli terbaik"
+        echo "Input kosong, menggunakan contoh: $question"
+    fi
+    encoded_question=$(urlencode "$question")
+
+    url="https://api.zenzxz.my.id/api/ai/chatai?query=${encoded_question}&model=deepseek-r1"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+grow_garden_stock() {
+    show_header
+    echo "=== Cek Stok Grow Garden ==="
+    url="https://api.zenzxz.my.id/api/info/growagardenstock"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+twitter_stalk() {
+    show_header
+    echo "=== Stalk Profil Twitter ==="
+    read -p "Masukkan username Twitter (contoh: deaafrizal): " username
+    if [ -z "$username" ]; then
+        username="deaafrizal"
+        echo "Input kosong, menggunakan contoh: $username"
+    fi
+    encoded_username=$(urlencode "$username")
+
+    url="https://api.zenzxz.my.id/api/stalker/twitter?username=${encoded_username}"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+ssweb() {
+    show_header
+    echo "=== Screenshot Website (ssweb) ==="
+    read -p "Masukkan URL website untuk di-screenshot (contoh: https://api.zenzxz.my.id): " website_url
+    if [ -z "$website_url" ]; then
+        website_url="https://api.zenzxz.my.id"
+        echo "Input kosong, menggunakan contoh: $website_url"
+    fi
+    encoded_url=$(urlencode "$website_url")
+
+    url="https://api.zenzxz.my.id/api/tools/ssweb?url=${encoded_url}"
+    output_file="screenshot_$(date +%s).png"
+    echo "Mengunduh screenshot sebagai: $output_file"
+    curl -s -o "$output_file" "$url"
+    if [ $? -eq 0 ]; then
+        echo "Screenshot berhasil diunduh ke $output_file"
+        if command -v xdg-open &> /dev/null; then
+            echo "Membuka $output_file..."
+            xdg-open "$output_file"
+        elif command -v open &> /dev/null; then
+            echo "Membuka $output_file..."
+            open "$output_file"
+        else
+            echo "Silakan buka file '$output_file' secara manual untuk melihat screenshot."
+        fi
+    else
+        echo "Gagal mengunduh screenshot."
+        if [ -s "$output_file" ]; then
+            echo "Isi respon (mungkin error):"
+            cat "$output_file"
+            rm "$output_file"
+        fi
+    fi
+    pause
+}
+toapp() {
+    show_header
+    echo "=== Build Android App (toapp) ==="
+    read -p "Masukkan URL website (contoh: https://github.com): " app_url
+    if [ -z "$app_url" ]; then
+        app_url="https://github.com"
+        echo "Input kosong, menggunakan contoh: $app_url"
+    fi
+    read -p "Masukkan email Anda (contoh: m.23.idanish@gmail.com): " email
+    if [ -z "$email" ]; then
+        email="m.23.idanish@gmail.com"
+        echo "Input kosong, menggunakan contoh: $email"
+    fi
+    read -p "Masukkan nama aplikasi (contoh: Github): " app_name
+    if [ -z "$app_name" ]; then
+        app_name="Github"
+        echo "Input kosong, menggunakan contoh: $app_name"
+    fi
+    read -p "Masukkan URL ikon aplikasi (contoh: https://c.termai.cc/i95/VI23vR.jpg): " app_icon
+    if [ -z "$app_icon" ]; then
+        app_icon="https://c.termai.cc/i95/VI23vR.jpg"
+        echo "Input kosong, menggunakan contoh: $app_icon"
+    fi
+
+    encoded_url=$(urlencode "$app_url")
+    encoded_email=$(urlencode "$email")
+    encoded_app_name=$(urlencode "$app_name")
+    encoded_app_icon=$(urlencode "$app_icon")
+
+    url="https://api.fikmydomainsz.xyz/tools/toapp/build-complete?url=${encoded_url}&email=${encoded_email}&appName=${encoded_app_name}&appIcon=${encoded_app_icon}"
+    echo "Memulai proses build aplikasi..."
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+ai_sky() {
+    show_header
+    echo "=== AI Sky ==="
+    read -p "Masukkan teks untuk AI Sky (contoh: Halo): " sky_text
+    if [ -z "$sky_text" ]; then
+        sky_text="Halo"
+        echo "Input kosong, menggunakan contoh: $sky_text"
+    fi
+    encoded_text=$(urlencode "$sky_text")
+
+    url="https://etzy-api.vercel.app/ai/special/sky?text=${encoded_text}"
+    echo "Mengirim teks ke AI Sky: $sky_text"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+anime_search() {
+    show_header
+    echo "=== Cari Anime ==="
+    read -p "Masukkan judul anime yang dicari (contoh: Neko): " anime_query
+    if [ -z "$anime_query" ]; then
+        anime_query="Neko"
+        echo "Input kosong, menggunakan contoh: $anime_query"
+    fi
+    encoded_query=$(urlencode "$anime_query")
+
+    url="https://etzy-api.vercel.app/anime/animelovers/search?query=${encoded_query}"
+    echo "Mencari anime: $anime_query"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+komik_search() {
+    show_header
+    echo "=== Cari Komik (Manga) ==="
+    read -p "Masukkan judul manga yang dicari (contoh: Whoami): " manga_query
+    if [ -z "$manga_query" ]; then
+        manga_query="Whoami"
+        echo "Input kosong, menggunakan contoh: $manga_query"
+    fi
+    encoded_query=$(urlencode "$manga_query")
+
+    url="https://etzy-api.vercel.app/anime/mal/manga?query=${encoded_query}"
+    echo "Mencari manga: $manga_query"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+bmkg_info() {
+    show_header
+    echo "=== Info BMKG ==="
+    url="https://etzy-api.vercel.app/info/bmkg"
+    echo "Mengambil informasi dari BMKG..."
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+cuaca_etzy() {
+    show_header
+    echo "=== Cek Cuaca (etzy-api) ==="
+    read -p "Masukkan nama kota (contoh: Bandung): " city
+    if [ -z "$city" ]; then
+        city="Bandung"
+        echo "Input kosong, menggunakan contoh: $city"
+    fi
+    encoded_city=$(urlencode "$city")
+
+    url="https://etzy-api.vercel.app/info/cuaca?kota=${encoded_city}"
+    echo "Mencari cuaca untuk kota: $city"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+anime_quote() {
+    show_header
+    echo "=== Kutipan Anime ==="
+    url="https://etzy-api.vercel.app/quote/anime"
+    echo "Mengambil kutipan anime..."
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+cookpad_search() {
+    show_header
+    echo "=== Cari Resep (Cookpad) ==="
+    read -p "Masukkan bahan atau nama makanan (contoh: Telor): " cookpad_query
+    if [ -z "$cookpad_query" ]; then
+        cookpad_query="Telor"
+        echo "Input kosong, menggunakan contoh: $cookpad_query"
+    fi
+    encoded_query=$(urlencode "$cookpad_query")
+
+    url="https://etzy-api.vercel.app/search/cookpad?q=${encoded_query}"
+    echo "Mencari resep untuk: $cookpad_query"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+cari_job() {
+    show_header
+    echo "=== Cari Pekerjaan (Jobstreet) ==="
+    read -p "Masukkan jenis pekerjaan (contoh: Informatika): " job
+    if [ -z "$job" ]; then
+        job="Informatika"
+        echo "Input kosong, menggunakan contoh: $job"
+    fi
+    read -p "Masukkan kota (contoh: Bandung): " location
+    if [ -z "$location" ]; then
+        location="Bandung"
+        echo "Input kosong, menggunakan contoh: $location"
+    fi
+    read -p "Masukkan jumlah hasil yang ditampilkan (contoh: 10): " limit
+    if [ -z "$limit" ]; then
+        limit=10
+        echo "Input kosong, menggunakan contoh: $limit"
+    fi
+
+    encoded_job=$(urlencode "$job")
+    encoded_location=$(urlencode "$location")
+
+    url="https://etzy-api.vercel.app/search/jobstreet?pekerjaan=${encoded_job}&kota=${encoded_location}&jumlah=${limit}"
+    echo "Mencari pekerjaan: $job di $location (max $limit hasil)"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+info_mpl() {
+    show_header
+    echo "=== Info Turnamen MPL (Mobile Legends) ==="
+    url="https://etzy-api.vercel.app/games/tourney/ml"
+    echo "Mengambil informasi turnamen MPL..."
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+# --- Fungsi API Naze ---
+# API Key untuk Naze
+NAZE_API_KEY="nz-a8a86fd84e"
+
+brainly_search() {
+    show_header
+    echo "=== Cari di Brainly ==="
+    read -p "Masukkan pertanyaan (contoh: matematika): " query
+    if [ -z "$query" ]; then
+        query="matematika"
+        echo "Input kosong, menggunakan contoh: $query"
+    fi
+    encoded_query=$(urlencode "$query")
+
+    url="https://api.naze.biz.id/education/brainly?query=${encoded_query}&apikey=${NAZE_API_KEY}"
+    echo "Mencari di Brainly: $query"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+wikipedia_search() {
+    show_header
+    echo "=== Cari di Wikipedia ==="
+    read -p "Masukkan topik (contoh: darkweb): " query
+    if [ -z "$query" ]; then
+        query="darkweb"
+        echo "Input kosong, menggunakan contoh: $query"
+    fi
+    encoded_query=$(urlencode "$query")
+
+    url="https://api.naze.biz.id/education/wikipedia?query=${encoded_query}&apikey=${NAZE_API_KEY}"
+    echo "Mencari di Wikipedia: $query"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+cek_gender() {
+    show_header
+    echo "=== Cek Gender Nama ==="
+    read -p "Masukkan nama (contoh: yan): " name
+    if [ -z "$name" ]; then
+        name="yan"
+        echo "Input kosong, menggunakan contoh: $name"
+    fi
+    encoded_name=$(urlencode "$name")
+
+    url="https://api.naze.biz.id/primbon/cekgender?name=${encoded_name}&apikey=${NAZE_API_KEY}"
+    echo "Mengecek gender nama: $name"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+kapan_random() {
+    show_header
+    echo "=== Kapan (Random)? ==="
+    read -p "Masukkan pertanyaan (contoh: nikash): " query
+    if [ -z "$query" ]; then
+        query="nikash"
+        echo "Input kosong, menggunakan contoh: $query"
+    fi
+    encoded_query=$(urlencode "$query")
+
+    url="https://api.naze.biz.id/primbon/kapankah?query=${encoded_query}&apikey=${NAZE_API_KEY}"
+    echo "Pertanyaan: $query"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+cek_khodam() {
+    show_header
+    echo "=== Cek Khodam ==="
+    url="https://api.naze.biz.id/primbon/cekkhodam?apikey=${NAZE_API_KEY}"
+    echo "Mengecek khodam..."
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+kerang_ajaib() {
+    show_header
+    echo "=== Kerang Ajaib ==="
+    read -p "Masukkan pertanyaan (contoh: hari Selasa hari apa): " query
+    if [ -z "$query" ]; then
+        query="hari Selasa hari apa"
+        echo "Input kosong, menggunakan contoh: $query"
+    fi
+    encoded_query=$(urlencode "$query")
+
+    url="https://api.naze.biz.id/primbon/kerangajaib?query=${encoded_query}&apikey=${NAZE_API_KEY}"
+    echo "Pertanyaan: $query"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+apakah() {
+    show_header
+    echo "=== Apakah...? ==="
+    read -p "Masukkan pertanyaan (contoh: aku bisa terbang): " query
+    if [ -z "$query" ]; then
+        query="aku bisa terbang"
+        echo "Input kosong, menggunakan contoh: $query"
+    fi
+    encoded_query=$(urlencode "$query")
+
+    url="https://api.naze.biz.id/primbon/apakah?query=${encoded_query}&apikey=${NAZE_API_KEY}"
+    echo "Pertanyaan: $query"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+bisakah() {
+    show_header
+    echo "=== Bisakah...? ==="
+    read -p "Masukkan pertanyaan (contoh: aku bisa terbang): " query
+    if [ -z "$query" ]; then
+        query="aku bisa terbang"
+        echo "Input kosong, menggunakan contoh: $query"
+    fi
+    encoded_query=$(urlencode "$query")
+
+    url="https://api.naze.biz.id/primbon/bisakah?query=${encoded_query}&apikey=${NAZE_API_KEY}"
+    echo "Pertanyaan: $query"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+arti_nama() {
+    show_header
+    echo "=== Arti Nama ==="
+    read -p "Masukkan nama (contoh: yanto): " nama
+    if [ -z "$nama" ]; then
+        nama="yanto"
+        echo "Input kosong, menggunakan contoh: $nama"
+    fi
+    encoded_nama=$(urlencode "$nama")
+
+    url="https://api.naze.biz.id/primbon/arti-nama?nama=${encoded_nama}&apikey=${NAZE_API_KEY}"
+    echo "Mencari arti nama: $nama"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+penafsir_mimpi() {
+    show_header
+    echo "=== Penafsir Mimpi ==="
+    read -p "Deskripsikan mimpimu (contoh: dikejar ular): " mimpi
+    if [ -z "$mimpi" ]; then
+        mimpi="dikejar ular"
+        echo "Input kosong, menggunakan contoh: $mimpi"
+    fi
+    encoded_mimpi=$(urlencode "$mimpi")
+
+    url="https://api.naze.biz.id/primbon/arti-mimpi?mimpi=${encoded_mimpi}&apikey=${NAZE_API_KEY}"
+    echo "Mimpi: $mimpi"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+bing_search() {
+    show_header
+    echo "=== Pencarian Bing ==="
+    read -p "Masukkan kata kunci (contoh: jepang aca aca): " query
+    if [ -z "$query" ]; then
+        query="jepang aca aca"
+        echo "Input kosong, menggunakan contoh: $query"
+    fi
+    encoded_query=$(urlencode "$query")
+
+    url="https://api.naze.biz.id/search/bing?query=${encoded_query}&apikey=${NAZE_API_KEY}"
+    echo "Mencari di Bing: $query"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+google_play_search() {
+    show_header
+    echo "=== Pencarian Google Play ==="
+    read -p "Masukkan nama aplikasi (contoh: free fire): " query
+    if [ -z "$query" ]; then
+        query="free fire"
+        echo "Input kosong, menggunakan contoh: $query"
+    fi
+    encoded_query=$(urlencode "$query")
+
+    url="https://api.naze.biz.id/search/playstore?query=${encoded_query}&apikey=${NAZE_API_KEY}"
+    echo "Mencari di Google Play: $query"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+aptoide_search() {
+    show_header
+    echo "=== Pencarian Aptoide ==="
+    read -p "Masukkan nama aplikasi (contoh: free fire): " query
+    if [ -z "$query" ]; then
+        query="free fire"
+        echo "Input kosong, menggunakan contoh: $query"
+    fi
+    encoded_query=$(urlencode "$query")
+
+    url="https://api.naze.biz.id/search/aptoid?query=${encoded_query}&apikey=${NAZE_API_KEY}"
+    echo "Mencari di Aptoide: $query"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+github_repo_search() {
+    show_header
+    echo "=== Pencarian Repo GitHub ==="
+    read -p "Masukkan kata kunci (contoh: ddos): " query
+    if [ -z "$query" ]; then
+        query="ddos"
+        echo "Input kosong, menggunakan contoh: $query"
+    fi
+    encoded_query=$(urlencode "$query")
+
+    url="https://api.naze.biz.id/search/github-repo?query=${encoded_query}&apikey=${NAZE_API_KEY}"
+    echo "Mencari repo GitHub: $query"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+github_code_search() {
+    show_header
+    echo "=== Pencarian Kode GitHub ==="
+    read -p "Masukkan kata kunci (contoh: ddos): " query
+    if [ -z "$query" ]; then
+        query="ddos"
+        echo "Input kosong, menggunakan contoh: $query"
+    fi
+    encoded_query=$(urlencode "$query")
+
+    url="https://api.naze.biz.id/search/github-code?query=${encoded_query}&apikey=${NAZE_API_KEY}"
+    echo "Mencari kode GitHub: $query"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+google_search() {
+    show_header
+    echo "=== Pencarian Google ==="
+    read -p "Masukkan kata kunci (contoh: inurl:wp-login.php): " query
+    if [ -z "$query" ]; then
+        query="inurl:wp-login.php"
+        echo "Input kosong, menggunakan contoh: $query"
+    fi
+    encoded_query=$(urlencode "$query")
+
+    url="https://api.naze.biz.id/search/google?query=${encoded_query}&apikey=${NAZE_API_KEY}"
+    echo "Mencari di Google: $query"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+lahelu_search() {
+    show_header
+    echo "=== Pencarian Lahelu ==="
+    read -p "Masukkan kata kunci (contoh: lucu): " query
+    if [ -z "$query" ]; then
+        query="lucu"
+        echo "Input kosong, menggunakan contoh: $query"
+    fi
+    encoded_query=$(urlencode "$query")
+
+    url="https://api.naze.biz.id/search/lahelu?query=${encoded_query}&page=200&apikey=${NAZE_API_KEY}"
+    echo "Mencari di Lahelu: $query (Halaman 200)"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+yahoo_search() {
+    show_header
+    echo "=== Pencarian Gambar Yahoo ==="
+    read -p "Masukkan kata kunci (contoh: Hmei17): " query
+    if [ -z "$query" ]; then
+        query="Hmei17"
+        echo "Input kosong, menggunakan contoh: $query"
+    fi
+    encoded_query=$(urlencode "$query")
+
+    url="https://api.naze.biz.id/search/yahoo-image?query=${encoded_query}&apikey=${NAZE_API_KEY}"
+    echo "Mencari gambar di Yahoo: $query"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+tiktok_video_search() {
+    show_header
+    echo "=== Pencarian Video TikTok ==="
+    read -p "Masukkan kata kunci (contoh: ddos): " query
+    if [ -z "$query" ]; then
+        query="ddos"
+        echo "Input kosong, menggunakan contoh: $query"
+    fi
+    encoded_query=$(urlencode "$query")
+
+    url="https://api.naze.biz.id/search/tiktok?query=${encoded_query}&type=video&apikey=${NAZE_API_KEY}"
+    echo "Mencari video TikTok: $query"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+youtube_video_search() {
+    show_header
+    echo "=== Pencarian Video YouTube ==="
+    read -p "Masukkan kata kunci (contoh: ddos): " query
+    if [ -z "$query" ]; then
+        query="ddos"
+        echo "Input kosong, menggunakan contoh: $query"
+    fi
+    encoded_query=$(urlencode "$query")
+
+    url="https://api.naze.biz.id/search/youtube?query=${encoded_query}&apikey=${NAZE_API_KEY}"
+    echo "Mencari video YouTube: $query"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+revolver_ip() {
+    show_header
+    echo "=== Revolver IP ==="
+    read -p "Masukkan URL (contoh: https://guthib.com): " url_input
+    if [ -z "$url_input" ]; then
+        url_input="https://guthib.com"
+        echo "Input kosong, menggunakan contoh: $url_input"
+    fi
+    encoded_url=$(urlencode "$url_input")
+
+    url="https://api.naze.biz.id/tools/ip-url?url=${encoded_url}&apikey=${NAZE_API_KEY}"
+    echo "Mencari IP untuk: $url_input"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+get_http_response() {
+    show_header
+    echo "=== Dapatkan Respon HTTP ==="
+    read -p "Masukkan URL (contoh: https://github.com): " url_input
+    if [ -z "$url_input" ]; then
+        url_input="https://github.com"
+        echo "Input kosong, menggunakan contoh: $url_input"
+    fi
+    encoded_url=$(urlencode "$url_input")
+
+    # Buat URL API tanpa menampilkannya
+    api_url="https://api.naze.biz.id/tools/get-headers?url=${encoded_url}&apikey=${NAZE_API_KEY}"
+    # Tidak menampilkan pesan "Mengambil header HTTP untuk..." atau "Mengakses:..."
+    # Langsung lakukan permintaan dan tampilkan hasilnya
+    response=$(curl -s "$api_url")
+    echo "$response" | jq '.'
+    pause
+}
+find_subdo() {
+    show_header
+    echo "=== Temukan Subdomain ==="
+    read -p "Masukkan URL (contoh: https://github.com): " url_input
+    if [ -z "$url_input" ]; then
+        url_input="https://github.com"
+        echo "Input kosong, menggunakan contoh: $url_input"
+    fi
+    encoded_url=$(urlencode "$url_input")
+
+    url="https://api.naze.biz.id/tools/sub-finder?url=${encoded_url}&apikey=${NAZE_API_KEY}"
+    echo "Mencari subdomain untuk: $url_input"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+show_menu() {
+    while true; do
+        show_header
+        echo "Pilih fungsi API:"
+        echo "1. Cari Paket NPM"
+        echo "2. Stalk Profil GitHub"
+        echo "3. Stalk Profil TikTok"
+        echo "4. Periksa Status Website"
+        echo "5. Pemendek Tautan TinyURL"
+        echo "6. Pemendek Tautan Unguu"
+        echo "7. TikTok Video ke Catbox"
+        echo "8. Pembuat Kode QR (CLI)"
+        echo "9. Spam NGL (Gunakan Bijak!)"
+        echo "10. Kirim Email"
+        echo "11. Parser NIK"
+        echo "12. Cek Cuaca (api.fikmydomainsz)"
+        echo "13. Cek Voucher (Semua Operator)"
+        echo "14. Chat dengan CodeGemma"
+        echo "15. Chat dengan Kimi K2"
+        echo "16. Chat dengan DeepSeek V3"
+        echo "17. Chat dengan DeepSeek R1"
+        echo "18. Cek Stok Grow Garden"
+        echo "19. Stalk Profil Twitter"
+        echo "20. Screenshot Website (ssweb)"
+        echo "21. Build Android App (toapp)"
+        echo "22. AI Sky"
+        echo "23. Cari Anime"
+        echo "24. Cari Komik (Manga)"
+        echo "25. Info BMKG"
+        echo "26. Cek Cuaca (etzy-api)"
+        echo "27. Kutipan Anime"
+        echo "28. Cari Resep (Cookpad)"
+        echo "29. Cari Pekerjaan (Jobstreet)"
+        echo "30. Info Turnamen MPL"
+        echo "31. Cari di Brainly"
+        echo "32. Cari di Wikipedia"
+        echo "33. Cek Gender Nama"
+        echo "34. Kapan (Random)?"
+        echo "35. Cek Khodam"
+        echo "36. Kerang Ajaib"
+        echo "37. Apakah...?"
+        echo "38. Bisakah...?"
+        echo "39. Arti Nama"
+        echo "40. Penafsir Mimpi"
+        echo "41. Pencarian Bing"
+        echo "42. Pencarian Google Play"
+        echo "43. Pencarian Aptoide"
+        echo "44. Pencarian Repo GitHub"
+        echo "45. Pencarian Kode GitHub"
+        echo "46. Pencarian Google"
+        echo "47. Pencarian Lahelu"
+        echo "48. Pencarian Gambar Yahoo"
+        echo "49. Pencarian Video TikTok"
+        echo "50. Pencarian Video YouTube"
+        echo "51. Revolver IP"
+        echo "52. Dapatkan Respon HTTP"
+        echo "53. Temukan Subdomain"
+        echo "0. Keluar"
+        echo ""
+        read -p "Masukkan pilihan Anda [0-53]: " choice
+
+        case $choice in
+            1) npm_search ;;
+            2) github_stalk ;;
+            3) tiktok_stalk ;;
+            4) web_check ;;
+            5) tinyurl_shorten ;;
+            6) unguurl_shorten ;;
+            7) tt_to_catbox ;;
+            8) qr_generator ;;
+            9) spam_ngl ;;
+            10) send_mail ;;
+            11) nik_parser ;;
+            12) cek_cuaca ;;
+            13) cek_voucher ;;
+            14) chat_codegemma ;;
+            15) chat_kimi_k2 ;;
+            16) chat_deepseek_v3 ;;
+            17) chat_deepseek_r1 ;;
+            18) grow_garden_stock ;;
+            19) twitter_stalk ;;
+            20) ssweb ;;
+            21) toapp ;;
+            22) ai_sky ;;
+            23) anime_search ;;
+            24) komik_search ;;
+            25) bmkg_info ;;
+            26) cuaca_etzy ;;
+            27) anime_quote ;;
+            28) cookpad_search ;;
+            29) cari_job ;;
+            30) info_mpl ;;
+            31) brainly_search ;;
+            32) wikipedia_search ;;
+            33) cek_gender ;;
+            34) kapan_random ;;
+            35) cek_khodam ;;
+            36) kerang_ajaib ;;
+            37) apakah ;;
+            38) bisakah ;;
+            39) arti_nama ;;
+            40) penafsir_mimpi ;;
+            41) bing_search ;;
+            42) google_play_search ;;
+            43) aptoide_search ;;
+            44) github_repo_search ;;
+            45) github_code_search ;;
+            46) google_search ;;
+            47) lahelu_search ;;
+            48) yahoo_search ;;
+            49) tiktok_video_search ;;
+            50) youtube_video_search ;;
+            51) revolver_ip ;;
+            52) get_http_response ;;
+            53) find_subdo ;;
+            0) exit_script ;;
+            *) echo "Pilihan tidak valid. Silakan coba lagi."; sleep 2 ;;
+        esac
+    done
+}
+show_menu
