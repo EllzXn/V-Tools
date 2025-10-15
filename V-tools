@@ -1,0 +1,369 @@
+#!/bin/bash
+
+# Fungsi untuk membersihkan layar
+clear_screen() {
+    clear
+}
+
+# Fungsi untuk menampilkan header/banner menggunakan neofetch atau screenfetch
+show_header() {
+    clear_screen
+    echo "========================================"
+    if command -v neofetch &> /dev/null; then
+        neofetch --ascii_distro "Ubuntu" # Ganti dengan distro pilihan Anda jika perlu
+    elif command -v screenfetch &> /dev/null; then
+        screenfetch -D "Ubuntu" # Ganti dengan distro pilihan Anda jika perlu
+    else
+        echo "  _____  _   _   ____   _____ ______ "
+        echo " |  __ \| \ | | |  _ \ / ____|  ____|"
+        echo " | |__) |  \| | | |_) | |  __| |__   "
+        echo " |  ___/| . \ | |  _ <| | |_ |  __|  "
+        echo " | |    | |\  | | |_) | |__| | |____ "
+        echo " |_|    |_| \_| |____/ \_____|______|"
+        echo "                                      "
+        echo "          GOBLOK API Tools            "
+        echo "========================================"
+    fi
+    echo "========================================"
+    echo ""
+}
+
+# Fungsi untuk menunggu input pengguna sebelum kembali ke menu
+pause() {
+    read -p "Tekan Enter untuk kembali ke menu..."
+    show_menu
+}
+
+# Fungsi untuk keluar
+exit_script() {
+    echo "Keluar dari script. Sampai jumpa!"
+    exit 0
+}
+
+# Fungsi untuk mencari paket npm
+npm_search() {
+    show_header
+    echo "=== Pencarian Paket NPM ==="
+    read -p "Masukkan nama paket npm yang dicari (contoh: node-fetch): " package_name
+    if [ -z "$package_name" ]; then
+        package_name="node-fetch" # Gunakan contoh jika kosong
+        echo "Input kosong, menggunakan contoh: $package_name"
+    fi
+    encoded_package=$(urlencode "$package_name")
+    url="https://api.fikmydomainsz.xyz/search/npm?q=${encoded_package}"
+    echo "Mengambil data dari: $url"
+    curl -s "$url" | jq '.'
+    pause
+}
+
+# Fungsi untuk stalk profil GitHub
+github_stalk() {
+    show_header
+    echo "=== Stalk Profil GitHub ==="
+    read -p "Masukkan username GitHub (contoh: yanz-iyyo): " username
+    if [ -z "$username" ]; then
+        username="yanz-iyyo"
+        echo "Input kosong, menggunakan contoh: $username"
+    fi
+    encoded_username=$(urlencode "$username")
+    url="https://api.fikmydomainsz.xyz/stalk/github?username=${encoded_username}"
+    echo "Mengambil data dari: $url"
+    curl -s "$url" | jq '.'
+    pause
+}
+
+# Fungsi untuk stalk profil TikTok
+tiktok_stalk() {
+    show_header
+    echo "=== Stalk Profil TikTok ==="
+    read -p "Masukkan username TikTok (contoh: oe_kontol): " username
+    if [ -z "$username" ]; then
+        username="oe_kontol"
+        echo "Input kosong, menggunakan contoh: $username"
+    fi
+    encoded_username=$(urlencode "$username")
+    url="https://api.fikmydomainsz.xyz/stalk/tiktok?username=${encoded_username}"
+    echo "Mengambil data dari: $url"
+    curl -s "$url" | jq '.'
+    pause
+}
+
+# Fungsi untuk memeriksa status website
+web_check() {
+    show_header
+    echo "=== Pemeriksa Status Website ==="
+    read -p "Masukkan URL website (contoh: smpn1pekanbaru.sch.id): " website_url
+    if [ -z "$website_url" ]; then
+        website_url="smpn1pekanbaru.sch.id"
+        echo "Input kosong, menggunakan contoh: $website_url"
+    fi
+    encoded_url=$(urlencode "$website_url")
+    url="https://api.fikmydomainsz.xyz/tools/webcheck?url=${encoded_url}"
+    echo "Mengambil data dari: $url"
+    curl -s "$url" | jq '.'
+    pause
+}
+
+# Fungsi untuk memperpendek tautan dengan TinyURL
+tinyurl_shorten() {
+    show_header
+    echo "=== Pemendek Tautan TinyURL ==="
+    read -p "Masukkan URL yang akan dipendekkan (contoh: Github.com): " long_url
+    if [ -z "$long_url" ]; then
+        long_url="Github.com"
+        echo "Input kosong, menggunakan contoh: $long_url"
+    fi
+    encoded_url=$(urlencode "$long_url")
+    url="https://api.fikmydomainsz.xyz/tools/tinyurl?url=${encoded_url}"
+    echo "Mengambil data dari: $url"
+    curl -s "$url" | jq '.'
+    pause
+}
+
+# Fungsi untuk memperpendek tautan dengan Unguu
+unguurl_shorten() {
+    show_header
+    echo "=== Pemendek Tautan Unguu ==="
+    read -p "Masukkan URL yang akan dipendekkan (contoh: Github.com): " long_url
+    if [ -z "$long_url" ]; then
+        long_url="Github.com"
+        echo "Input kosong, menggunakan contoh: $long_url"
+    fi
+    encoded_url=$(urlencode "$long_url")
+    url="https://api.fikmydomainsz.xyz/tools/unguurl?url=${encoded_url}"
+    echo "Mengambil data dari: $url"
+    curl -s "$url" | jq '.'
+    pause
+}
+
+# Fungsi untuk mengunduh video TikTok dan mengunggah ke catbox
+tt_to_catbox() {
+    show_header
+    echo "=== TikTok Video ke Catbox ==="
+    read -p "Masukkan URL video TikTok (contoh: vm.tiktok.com/ZSH...): " tiktok_url
+    if [ -z "$tiktok_url" ]; then
+        tiktok_url="https://vm.tiktok.com/ZSH7tRBjD24Qt-fOXQP/"
+        echo "Input kosong, menggunakan contoh: $tiktok_url"
+    fi
+    encoded_url=$(urlencode "$tiktok_url")
+    url="https://api.fikmydomainsz.xyz/tools/tttocatbox?url=${encoded_url}"
+    echo "Mengambil data dari: $url"
+    curl -s "$url" | jq '.'
+    pause
+}
+
+# Fungsi untuk membuat kode QR
+qr_generator() {
+    show_header
+    echo "=== Pembuat Kode QR ==="
+    read -p "Masukkan teks untuk dibuat QR (contoh: Kontol): " qr_text
+    if [ -z "$qr_text" ]; then
+        qr_text="Kontol"
+        echo "Input kosong, menggunakan contoh: $qr_text"
+    fi
+    encoded_text=$(urlencode "$qr_text")
+    url="https://api.fikmydomainsz.xyz/tools/texttoqr?text=${encoded_text}"
+    output_file="qrcode_output.png" # Nama file output default
+    echo "Mengunduh kode QR dari: $url"
+    echo "Menyimpan sebagai: $output_file"
+    curl -s -o "$output_file" "$url"
+    if [ $? -eq 0 ]; then
+        echo "Kode QR berhasil diunduh ke $output_file"
+        echo "Silakan buka file '$output_file' untuk melihatnya."
+    else
+        echo "Gagal mengunduh kode QR."
+    fi
+    pause
+}
+
+# Fungsi untuk spam NGL
+spam_ngl() {
+    show_header
+    echo "=== Spam NGL (Gunakan dengan bijak!) ==="
+    read -p "Masukkan username NGL (contoh: yanhaheho1): " ngl_user
+    if [ -z "$ngl_user" ]; then
+        ngl_user="yanhaheho1"
+        echo "Input kosong, menggunakan contoh: $ngl_user"
+    fi
+    read -p "Masukkan pesan spam (contoh: P): " message
+    if [ -z "$message" ]; then
+        message="P"
+        echo "Input kosong, menggunakan contoh: $message"
+    fi
+    read -p "Masukkan jumlah spam (contoh: 2): " count
+    if [ -z "$count" ] || ! [[ "$count" =~ ^[0-9]+$ ]]; then
+        count=2
+        echo "Input kosong atau bukan angka, menggunakan contoh: $count"
+    fi
+
+    encoded_user=$(urlencode "$ngl_user")
+    encoded_message=$(urlencode "$message")
+    url="https://api.fikmydomainsz.xyz/tools/spamngl?url=https%3A%2F%2Fngl.link%2F${encoded_user}&message=${encoded_message}&count=${count}"
+    echo "Mengirim spam ke: https://ngl.link/$ngl_user"
+    echo "Pesan: $message (x$count)"
+    echo "Mengakses: $url"
+    curl -s "$url" | jq '.'
+    echo "Spam selesai."
+    pause
+}
+
+# Fungsi untuk mengirim email
+send_mail() {
+    show_header
+    echo "=== Kirim Email ==="
+    read -p "Masukkan alamat email tujuan (contoh: m.23.idanish@gmail.com): " to_email
+    if [ -z "$to_email" ]; then
+        to_email="m.23.idanish@gmail.com"
+        echo "Input kosong, menggunakan contoh: $to_email"
+    fi
+    read -p "Masukkan subjek email (contoh: Woi): " subject
+    if [ -z "$subject" ]; then
+        subject="Woi"
+        echo "Input kosong, menggunakan contoh: $subject"
+    fi
+    read -p "Masukkan pesan email (contoh: P): " message
+    if [ -z "$message" ]; then
+        message="P"
+        echo "Input kosong, menggunakan contoh: $message"
+    fi
+
+    encoded_to=$(urlencode "$to_email")
+    encoded_subject=$(urlencode "$subject")
+    encoded_message=$(urlencode "$message")
+    url="https://api.fikmydomainsz.xyz/tools/sendmail/send?to=${encoded_to}&subject=${encoded_subject}&message=${encoded_message}"
+    echo "Mengirim email ke: $to_email"
+    echo "Subjek: $subject"
+    echo "Pesan: $message"
+    echo "Mengakses: $url"
+    curl -s "$url" | jq '.'
+    pause
+}
+
+# Fungsi untuk menganalisis NIK
+nik_parser() {
+    show_header
+    echo "=== Parser NIK ==="
+    read -p "Masukkan NIK (contoh: 3304060309700002): " nik
+    if [ -z "$nik" ]; then
+        nik="3304060309700002"
+        echo "Input kosong, menggunakan contoh: $nik"
+    fi
+    url="https://api.fikmydomainsz.xyz/tools/nik?nik=$nik"
+    echo "Mengambil data dari: $url"
+    curl -s "$url" | jq '.'
+    pause
+}
+
+# Fungsi untuk mengecek cuaca
+cek_cuaca() {
+    show_header
+    echo "=== Cek Cuaca ==="
+    read -p "Masukkan nama kota (contoh: Bandung): " city
+    if [ -z "$city" ]; then
+        city="Bandung"
+        echo "Input kosong, menggunakan contoh: $city"
+    fi
+    encoded_city=$(urlencode "$city")
+    url="https://api.fikmydomainsz.xyz/tools/cekcuaca?kota=${encoded_city}"
+    echo "Mengambil data dari: $url"
+    curl -s "$url" | jq '.'
+    pause
+}
+
+# Fungsi untuk mengecek voucher (semua operator)
+cek_voucher() {
+    show_header
+    echo "=== Cek Voucher Semua Operator ==="
+    read -p "Masukkan nomor telepon (contoh: 083852046026 atau 085282559062 untuk Telkomsel): " number
+    if [ -z "$number" ]; then
+        number="083852046026" # Gunakan nomor contoh default
+        echo "Input kosong, menggunakan contoh: $number (untuk Axis, BY.U, Indosat, Smartfren, XL)"
+    fi
+
+    # Daftar operator dan nomor yang digunakan
+    operators=("axis" "byu" "indosat" "smartfren" "xl")
+    number_to_use="$number"
+
+    # Cek apakah nomor untuk Telkomsel
+    if [[ "$number" == "085282559062" ]]; then
+        # Jika nomor adalah untuk Telkomsel, cek Telkomsel dan nomor lainnya
+        echo "Mengecek voucher Telkomsel untuk: $number"
+        url="https://api.fikmydomainsz.xyz/voucher/telkomsel?number=$number"
+        echo "Mengakses: $url"
+        curl -s "$url" | jq '.'
+        echo "-------------------------"
+        # Tetap cek nomor default untuk operator lain
+        number_to_use="083852046026"
+    fi
+
+    for op in "${operators[@]}"; do
+        echo "Mengecek voucher $op untuk: $number_to_use"
+        url="https://api.fikmydomainsz.xyz/voucher/$op?number=$number_to_use"
+        echo "Mengakses: $url"
+        curl -s "$url" | jq '.'
+        echo "-------------------------"
+    done
+
+    pause
+}
+
+# Fungsi untuk meng-encode URL
+urlencode() {
+    local string="${1}"
+    local encoded=""
+    local pos c
+
+    for (( pos=0; pos<${#string}; pos++ )); do
+        c=${string:$pos:1}
+        case "$c" in
+            [-_.~a-zA-Z0-9] ) encoded+="$c" ;;
+            * ) printf -v encoded "%s%%%02X" "$encoded" "'$c" ;;
+        esac
+    done
+    echo "${encoded}"
+}
+
+# Fungsi untuk menampilkan menu
+show_menu() {
+    while true; do
+        show_header
+        echo "Pilih fungsi API:"
+        echo "1. Cari Paket NPM"
+        echo "2. Stalk Profil GitHub"
+        echo "3. Stalk Profil TikTok"
+        echo "4. Periksa Status Website"
+        echo "5. Pemendek Tautan TinyURL"
+        echo "6. Pemendek Tautan Unguu"
+        echo "7. TikTok Video ke Catbox"
+        echo "8. Pembuat Kode QR"
+        echo "9. Spam NGL (Gunakan Bijak!)"
+        echo "10. Kirim Email"
+        echo "11. Parser NIK"
+        echo "12. Cek Cuaca"
+        echo "13. Cek Voucher (Semua Operator)"
+        echo "0. Keluar"
+        echo ""
+        read -p "Masukkan pilihan Anda [0-13]: " choice
+
+        case $choice in
+            1) npm_search ;;
+            2) github_stalk ;;
+            3) tiktok_stalk ;;
+            4) web_check ;;
+            5) tinyurl_shorten ;;
+            6) unguurl_shorten ;;
+            7) tt_to_catbox ;;
+            8) qr_generator ;;
+            9) spam_ngl ;;
+            10) send_mail ;;
+            11) nik_parser ;;
+            12) cek_cuaca ;;
+            13) cek_voucher ;;
+            0) exit_script ;;
+            *) echo "Pilihan tidak valid. Silakan coba lagi."; sleep 2 ;;
+        esac
+    done
+}
+
+# Jalankan menu utama
+show_menu
