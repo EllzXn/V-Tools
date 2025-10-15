@@ -3,6 +3,7 @@
 
 ```bash 
 pkg install git
+pkg install curl
 pkg install bash
 pkg install neofetch
 pkg install jq
@@ -16,4 +17,4 @@ bash V-tools
 
 
 <h1>Preview </h1>
-<img src="https://h.uguu.se/zFMTkJOT.jpg"></img>
+<img src="https://files.catbox.moe/40p9qe.jpg"></img>
