@@ -6,9 +6,9 @@ show_header() {
     clear_screen
     echo "========================================"
     if command -v neofetch &> /dev/null; then
-        neofetch --ascii_distro "Ubuntu"
+        neofetch --ascii_distro "Kali"
     elif command -v screenfetch &> /dev/null; then
-        screenfetch -D "Ubuntu"
+        screenfetch -D "Kali"
     else
         echo "  _____  _   _   ____   _____ ______ "
         echo " |  __ \| \ | | |  _ \ / ____|  ____|"
@@ -592,3 +592,678 @@ info_mpl() {
 # API Key untuk Naze
 NAZE_API_KEY="nz-a8a86fd84e"
 
+brainly_search() {
+    show_header
+    echo "=== Cari di Brainly ==="
+    read -p "Masukkan pertanyaan (contoh: matematika): " query
+    if [ -z "$query" ]; then
+        query="matematika"
+        echo "Input kosong, menggunakan contoh: $query"
+    fi
+    encoded_query=$(urlencode "$query")
+
+    url="https://api.naze.biz.id/education/brainly?query=${encoded_query}&apikey=${NAZE_API_KEY}"
+    echo "Mencari di Brainly: $query"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+wikipedia_search() {
+    show_header
+    echo "=== Cari di Wikipedia ==="
+    read -p "Masukkan topik (contoh: darkweb): " query
+    if [ -z "$query" ]; then
+        query="darkweb"
+        echo "Input kosong, menggunakan contoh: $query"
+    fi
+    encoded_query=$(urlencode "$query")
+
+    url="https://api.naze.biz.id/education/wikipedia?query=${encoded_query}&apikey=${NAZE_API_KEY}"
+    echo "Mencari di Wikipedia: $query"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+cek_gender() {
+    show_header
+    echo "=== Cek Gender Nama ==="
+    read -p "Masukkan nama (contoh: yan): " name
+    if [ -z "$name" ]; then
+        name="yan"
+        echo "Input kosong, menggunakan contoh: $name"
+    fi
+    encoded_name=$(urlencode "$name")
+
+    url="https://api.naze.biz.id/primbon/cekgender?name=${encoded_name}&apikey=${NAZE_API_KEY}"
+    echo "Mengecek gender nama: $name"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+kapan_random() {
+    show_header
+    echo "=== Kapan (Random)? ==="
+    read -p "Masukkan pertanyaan (contoh: nikash): " query
+    if [ -z "$query" ]; then
+        query="nikash"
+        echo "Input kosong, menggunakan contoh: $query"
+    fi
+    encoded_query=$(urlencode "$query")
+
+    url="https://api.naze.biz.id/primbon/kapankah?query=${encoded_query}&apikey=${NAZE_API_KEY}"
+    echo "Pertanyaan: $query"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+cek_khodam() {
+    show_header
+    echo "=== Cek Khodam ==="
+    url="https://api.naze.biz.id/primbon/cekkhodam?apikey=${NAZE_API_KEY}"
+    echo "Mengecek khodam..."
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+kerang_ajaib() {
+    show_header
+    echo "=== Kerang Ajaib ==="
+    read -p "Masukkan pertanyaan (contoh: hari Selasa hari apa): " query
+    if [ -z "$query" ]; then
+        query="hari Selasa hari apa"
+        echo "Input kosong, menggunakan contoh: $query"
+    fi
+    encoded_query=$(urlencode "$query")
+
+    url="https://api.naze.biz.id/primbon/kerangajaib?query=${encoded_query}&apikey=${NAZE_API_KEY}"
+    echo "Pertanyaan: $query"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+apakah() {
+    show_header
+    echo "=== Apakah...? ==="
+    read -p "Masukkan pertanyaan (contoh: aku bisa terbang): " query
+    if [ -z "$query" ]; then
+        query="aku bisa terbang"
+        echo "Input kosong, menggunakan contoh: $query"
+    fi
+    encoded_query=$(urlencode "$query")
+
+    url="https://api.naze.biz.id/primbon/apakah?query=${encoded_query}&apikey=${NAZE_API_KEY}"
+    echo "Pertanyaan: $query"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+bisakah() {
+    show_header
+    echo "=== Bisakah...? ==="
+    read -p "Masukkan pertanyaan (contoh: aku bisa terbang): " query
+    if [ -z "$query" ]; then
+        query="aku bisa terbang"
+        echo "Input kosong, menggunakan contoh: $query"
+    fi
+    encoded_query=$(urlencode "$query")
+
+    url="https://api.naze.biz.id/primbon/bisakah?query=${encoded_query}&apikey=${NAZE_API_KEY}"
+    echo "Pertanyaan: $query"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+arti_nama() {
+    show_header
+    echo "=== Arti Nama ==="
+    read -p "Masukkan nama (contoh: yanto): " nama
+    if [ -z "$nama" ]; then
+        nama="yanto"
+        echo "Input kosong, menggunakan contoh: $nama"
+    fi
+    encoded_nama=$(urlencode "$nama")
+
+    url="https://api.naze.biz.id/primbon/arti-nama?nama=${encoded_nama}&apikey=${NAZE_API_KEY}"
+    echo "Mencari arti nama: $nama"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+penafsir_mimpi() {
+    show_header
+    echo "=== Penafsir Mimpi ==="
+    read -p "Deskripsikan mimpimu (contoh: dikejar ular): " mimpi
+    if [ -z "$mimpi" ]; then
+        mimpi="dikejar ular"
+        echo "Input kosong, menggunakan contoh: $mimpi"
+    fi
+    encoded_mimpi=$(urlencode "$mimpi")
+
+    url="https://api.naze.biz.id/primbon/arti-mimpi?mimpi=${encoded_mimpi}&apikey=${NAZE_API_KEY}"
+    echo "Mimpi: $mimpi"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+bing_search() {
+    show_header
+    echo "=== Pencarian Bing ==="
+    read -p "Masukkan kata kunci (contoh: jepang aca aca): " query
+    if [ -z "$query" ]; then
+        query="jepang aca aca"
+        echo "Input kosong, menggunakan contoh: $query"
+    fi
+    encoded_query=$(urlencode "$query")
+
+    url="https://api.naze.biz.id/search/bing?query=${encoded_query}&apikey=${NAZE_API_KEY}"
+    echo "Mencari di Bing: $query"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+google_play_search() {
+    show_header
+    echo "=== Pencarian Google Play ==="
+    read -p "Masukkan nama aplikasi (contoh: free fire): " query
+    if [ -z "$query" ]; then
+        query="free fire"
+        echo "Input kosong, menggunakan contoh: $query"
+    fi
+    encoded_query=$(urlencode "$query")
+
+    url="https://api.naze.biz.id/search/playstore?query=${encoded_query}&apikey=${NAZE_API_KEY}"
+    echo "Mencari di Google Play: $query"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+aptoide_search() {
+    show_header
+    echo "=== Pencarian Aptoide ==="
+    read -p "Masukkan nama aplikasi (contoh: free fire): " query
+    if [ -z "$query" ]; then
+        query="free fire"
+        echo "Input kosong, menggunakan contoh: $query"
+    fi
+    encoded_query=$(urlencode "$query")
+
+    url="https://api.naze.biz.id/search/aptoid?query=${encoded_query}&apikey=${NAZE_API_KEY}"
+    echo "Mencari di Aptoide: $query"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+github_repo_search() {
+    show_header
+    echo "=== Pencarian Repo GitHub ==="
+    read -p "Masukkan kata kunci (contoh: ddos): " query
+    if [ -z "$query" ]; then
+        query="ddos"
+        echo "Input kosong, menggunakan contoh: $query"
+    fi
+    encoded_query=$(urlencode "$query")
+
+    url="https://api.naze.biz.id/search/github-repo?query=${encoded_query}&apikey=${NAZE_API_KEY}"
+    echo "Mencari repo GitHub: $query"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+github_code_search() {
+    show_header
+    echo "=== Pencarian Kode GitHub ==="
+    read -p "Masukkan kata kunci (contoh: ddos): " query
+    if [ -z "$query" ]; then
+        query="ddos"
+        echo "Input kosong, menggunakan contoh: $query"
+    fi
+    encoded_query=$(urlencode "$query")
+
+    url="https://api.naze.biz.id/search/github-code?query=${encoded_query}&apikey=${NAZE_API_KEY}"
+    echo "Mencari kode GitHub: $query"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+google_search() {
+    show_header
+    echo "=== Pencarian Google ==="
+    read -p "Masukkan kata kunci (contoh: inurl:wp-login.php): " query
+    if [ -z "$query" ]; then
+        query="inurl:wp-login.php"
+        echo "Input kosong, menggunakan contoh: $query"
+    fi
+    encoded_query=$(urlencode "$query")
+
+    url="https://api.naze.biz.id/search/google?query=${encoded_query}&apikey=${NAZE_API_KEY}"
+    echo "Mencari di Google: $query"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+lahelu_search() {
+    show_header
+    echo "=== Pencarian Lahelu ==="
+    read -p "Masukkan kata kunci (contoh: lucu): " query
+    if [ -z "$query" ]; then
+        query="lucu"
+        echo "Input kosong, menggunakan contoh: $query"
+    fi
+    encoded_query=$(urlencode "$query")
+
+    url="https://api.naze.biz.id/search/lahelu?query=${encoded_query}&page=200&apikey=${NAZE_API_KEY}"
+    echo "Mencari di Lahelu: $query (Halaman 200)"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+yahoo_search() {
+    show_header
+    echo "=== Pencarian Gambar Yahoo ==="
+    read -p "Masukkan kata kunci (contoh: Hmei17): " query
+    if [ -z "$query" ]; then
+        query="Hmei17"
+        echo "Input kosong, menggunakan contoh: $query"
+    fi
+    encoded_query=$(urlencode "$query")
+
+    url="https://api.naze.biz.id/search/yahoo-image?query=${encoded_query}&apikey=${NAZE_API_KEY}"
+    echo "Mencari gambar di Yahoo: $query"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+tiktok_video_search() {
+    show_header
+    echo "=== Pencarian Video TikTok ==="
+    read -p "Masukkan kata kunci (contoh: ddos): " query
+    if [ -z "$query" ]; then
+        query="ddos"
+        echo "Input kosong, menggunakan contoh: $query"
+    fi
+    encoded_query=$(urlencode "$query")
+
+    url="https://api.naze.biz.id/search/tiktok?query=${encoded_query}&type=video&apikey=${NAZE_API_KEY}"
+    echo "Mencari video TikTok: $query"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+youtube_video_search() {
+    show_header
+    echo "=== Pencarian Video YouTube ==="
+    read -p "Masukkan kata kunci (contoh: ddos): " query
+    if [ -z "$query" ]; then
+        query="ddos"
+        echo "Input kosong, menggunakan contoh: $query"
+    fi
+    encoded_query=$(urlencode "$query")
+
+    url="https://api.naze.biz.id/search/youtube?query=${encoded_query}&apikey=${NAZE_API_KEY}"
+    echo "Mencari video YouTube: $query"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+revolver_ip() {
+    show_header
+    echo "=== Revolver IP ==="
+    read -p "Masukkan URL (contoh: https://guthib.com): " url_input
+    if [ -z "$url_input" ]; then
+        url_input="https://guthib.com"
+        echo "Input kosong, menggunakan contoh: $url_input"
+    fi
+    encoded_url=$(urlencode "$url_input")
+
+    url="https://api.naze.biz.id/tools/ip-url?url=${encoded_url}&apikey=${NAZE_API_KEY}"
+    echo "Mencari IP untuk: $url_input"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+get_http_response() {
+    show_header
+    echo "=== Dapatkan Respon HTTP ==="
+    read -p "Masukkan URL (contoh: https://github.com): " url_input
+    if [ -z "$url_input" ]; then
+        url_input="https://github.com"
+        echo "Input kosong, menggunakan contoh: $url_input"
+    fi
+    encoded_url=$(urlencode "$url_input")
+
+    api_url="https://api.naze.biz.id/tools/get-headers?url=${encoded_url}&apikey=${NAZE_API_KEY}"
+    response=$(curl -s "$api_url")
+    echo "$response" | jq '.'
+    pause
+}
+find_subdo() {
+    show_header
+    echo "=== Temukan Subdomain ==="
+    read -p "Masukkan URL (contoh: https://github.com): " url_input
+    if [ -z "$url_input" ]; then
+        url_input="https://github.com"
+        echo "Input kosong, menggunakan contoh: $url_input"
+    fi
+    encoded_url=$(urlencode "$url_input")
+
+    url="https://api.naze.biz.id/tools/sub-finder?url=${encoded_url}&apikey=${NAZE_API_KEY}"
+    echo "Mencari subdomain untuk: $url_input"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+# --- Fungsi API Zelapioffciall ---
+telegram_stalk() {
+    show_header
+    echo "=== Stalk Profil Telegram ==="
+    read -p "Masukkan username Telegram (contoh: YanOZX): " username
+    if [ -z "$username" ]; then
+        username="YanOZX"
+        echo "Input kosong, menggunakan contoh: $username"
+    fi
+    encoded_username=$(urlencode "$username")
+
+    url="https://zelapioffciall.koyeb.app/stalk/telegram?username=${encoded_username}"
+    echo "Mengambil data dari: $url"
+    curl -s "$url" | jq '.'
+    pause
+}
+github_repo_stalk() {
+    show_header
+    echo "=== Stalk Repo GitHub ==="
+    read -p "Masukkan username pemilik repo (contoh: TheyanzXD): " user
+    if [ -z "$user" ]; then
+        user="TheyanzXD"
+        echo "Input kosong, menggunakan contoh: $user"
+    fi
+    read -p "Masukkan nama repo (contoh: Vercel): " repo
+    if [ -z "$repo" ]; then
+        repo="Vercel"
+        echo "Input kosong, menggunakan contoh: $repo"
+    fi
+    encoded_user=$(urlencode "$user")
+    encoded_repo=$(urlencode "$repo")
+
+    url="https://zelapioffciall.koyeb.app/stalk/githubrepo?user=${encoded_user}&repo=${encoded_repo}"
+    echo "Mengambil data dari: $url"
+    curl -s "$url" | jq '.'
+    pause
+}
+jadwal_tv() {
+    show_header
+    echo "=== Jadwal TV ==="
+    read -p "Masukkan nama channel (contoh: Trans7): " channel
+    if [ -z "$channel" ]; then
+        channel="Trans7"
+        echo "Input kosong, menggunakan contoh: $channel"
+    fi
+    encoded_channel=$(urlencode "$channel")
+
+    url="https://zelapioffciall.koyeb.app/search/jadwaltv?channel=${encoded_channel}"
+    echo "Mengambil jadwal dari: $url"
+    curl -s "$url" | jq '.'
+    pause
+}
+spotify_search() {
+    show_header
+    echo "=== Cari di Spotify ==="
+    read -p "Masukkan kata kunci (contoh: Secukupnya): " query
+    if [ -z "$query" ]; then
+        query="Secukupnya"
+        echo "Input kosong, menggunakan contoh: $query"
+    fi
+    encoded_query=$(urlencode "$query")
+
+    url="https://zelapioffciall.koyeb.app/search/spotify?q=${encoded_query}"
+    echo "Mencari di Spotify: $query"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+gsm_get_phone() {
+    show_header
+    echo "=== Cari di GSM Arena ==="
+    read -p "Masukkan nama ponsel (contoh: Infinix note 50 pro plus): " phone
+    if [ -z "$phone" ]; then
+        phone="Infinix note 50 pro plus"
+        echo "Input kosong, menggunakan contoh: $phone"
+    fi
+    encoded_phone=$(urlencode "$phone")
+
+    url="https://zelapioffciall.koyeb.app/search/gsmarena?phone=${encoded_phone}"
+    echo "Mencari di GSM Arena: $phone"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+dns_lookup() {
+    show_header
+    echo "=== DNS Lookup ==="
+    read -p "Masukkan domain (contoh: guthib.com): " domain
+    if [ -z "$domain" ]; then
+        domain="guthib.com"
+        echo "Input kosong, menggunakan contoh: $domain"
+    fi
+    encoded_domain=$(urlencode "$domain")
+
+    url="https://zelapioffciall.koyeb.app/search/dns?domain=${encoded_domain}"
+    echo "Melakukan lookup DNS untuk: $domain"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+domain_checker() {
+    show_header
+    echo "=== Cek Domain Tersedia ==="
+    read -p "Masukkan domain (contoh: guthib.com): " domain
+    if [ -z "$domain" ]; then
+        domain="guthib.com"
+        echo "Input kosong, menggunakan contoh: $domain"
+    fi
+    encoded_domain=$(urlencode "$domain")
+
+    url="https://zelapioffciall.koyeb.app/tools/domain?q=${encoded_domain}"
+    echo "Mengecek ketersediaan domain: $domain"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+baidu_search() {
+    show_header
+    echo "=== Pencarian Baidu ==="
+    read -p "Masukkan kata kunci (contoh: google): " query
+    if [ -z "$query" ]; then
+        query="google"
+        echo "Input kosong, menggunakan contoh: $query"
+    fi
+    encoded_query=$(urlencode "$query")
+
+    url="https://zelapioffciall.koyeb.app/search/baidu?q=${encoded_query}"
+    echo "Mencari di Baidu: $query"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+crypto_news() {
+    show_header
+    echo "=== Berita Crypto ==="
+    read -p "Masukkan kode koin (contoh: Btc): " coin
+    if [ -z "$coin" ]; then
+        coin="Btc"
+        echo "Input kosong, menggunakan contoh: $coin"
+    fi
+    encoded_coin=$(urlencode "$coin")
+
+    url="https://zelapioffciall.koyeb.app/info/crypto?coin=${encoded_coin}"
+    echo "Mengambil berita crypto untuk: $coin"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
+show_menu() {
+    while true; do
+        show_header
+        echo "Pilih fungsi API:"
+        echo "1. Cari Paket NPM"
+        echo "2. Stalk Profil GitHub"
+        echo "3. Stalk Profil TikTok"
+        echo "4. Periksa Status Website"
+        echo "5. Pemendek Tautan TinyURL"
+        echo "6. Pemendek Tautan Unguu"
+        echo "7. TikTok Video ke Catbox"
+        echo "8. Pembuat Kode QR (CLI)"
+        echo "9. Spam NGL (Gunakan Bijak!)"
+        echo "10. Kirim Email"
+        echo "11. Parser NIK"
+        echo "12. Cek Cuaca (api.fikmydomainsz)"
+        echo "13. Cek Voucher (Semua Operator)"
+        echo "14. Chat dengan CodeGemma"
+        echo "15. Chat dengan Kimi K2"
+        echo "16. Chat dengan DeepSeek V3"
+        echo "17. Chat dengan DeepSeek R1"
+        echo "18. Cek Stok Grow Garden"
+        echo "19. Stalk Profil Twitter"
+        echo "20. Screenshot Website (ssweb)"
+        echo "21. Build Android App (toapp)"
+        echo "22. AI Sky"
+        echo "23. Cari Anime"
+        echo "24. Cari Komik (Manga)"
+        echo "25. Info BMKG"
+        echo "26. Cek Cuaca (etzy-api)"
+        echo "27. Kutipan Anime"
+        echo "28. Cari Resep (Cookpad)"
+        echo "29. Cari Pekerjaan (Jobstreet)"
+        echo "30. Info Turnamen MPL"
+        echo "31. Cari di Brainly"
+        echo "32. Cari di Wikipedia"
+        echo "33. Cek Gender Nama"
+        echo "34. Kapan (Random)?"
+        echo "35. Cek Khodam"
+        echo "36. Kerang Ajaib"
+        echo "37. Apakah...?"
+        echo "38. Bisakah...?"
+        echo "39. Arti Nama"
+        echo "40. Penafsir Mimpi"
+        echo "41. Pencarian Bing"
+        echo "42. Pencarian Google Play"
+        echo "43. Pencarian Aptoide"
+        echo "44. Pencarian Repo GitHub"
+        echo "45. Pencarian Kode GitHub"
+        echo "46. Pencarian Google"
+        echo "47. Pencarian Lahelu"
+        echo "48. Pencarian Gambar Yahoo"
+        echo "49. Pencarian Video TikTok"
+        echo "50. Pencarian Video YouTube"
+        echo "51. Revolver IP"
+        echo "52. Dapatkan Respon HTTP"
+        echo "53. Temukan Subdomain"
+        echo "54. Stalk Profil Telegram"
+        echo "55. Stalk Repo GitHub"
+        echo "56. Jadwal TV"
+        echo "57. Cari di Spotify"
+        echo "58. Cari di GSM Arena"
+        echo "59. DNS Lookup"
+        echo "60. Cek Domain Tersedia"
+        echo "61. Pencarian Baidu"
+        echo "62. Berita Crypto"
+        echo "0. Keluar"
+        echo ""
+        read -p "Masukkan pilihan Anda [0-62]: " choice
+
+        case $choice in
+            1) npm_search ;;
+            2) github_stalk ;;
+            3) tiktok_stalk ;;
+            4) web_check ;;
+            5) tinyurl_shorten ;;
+            6) unguurl_shorten ;;
+            7) tt_to_catbox ;;
+            8) qr_generator ;;
+            9) spam_ngl ;;
+            10) send_mail ;;
+            11) nik_parser ;;
+            12) cek_cuaca ;;
+            13) cek_voucher ;;
+            14) chat_codegemma ;;
+            15) chat_kimi_k2 ;;
+            16) chat_deepseek_v3 ;;
+            17) chat_deepseek_r1 ;;
+            18) grow_garden_stock ;;
+            19) twitter_stalk ;;
+            20) ssweb ;;
+            21) toapp ;;
+            22) ai_sky ;;
+            23) anime_search ;;
+            24) komik_search ;;
+            25) bmkg_info ;;
+            26) cuaca_etzy ;;
+            27) anime_quote ;;
+            28) cookpad_search ;;
+            29) cari_job ;;
+            30) info_mpl ;;
+            31) brainly_search ;;
+            32) wikipedia_search ;;
+            33) cek_gender ;;
+            34) kapan_random ;;
+            35) cek_khodam ;;
+            36) kerang_ajaib ;;
+            37) apakah ;;
+            38) bisakah ;;
+            39) arti_nama ;;
+            40) penafsir_mimpi ;;
+            41) bing_search ;;
+            42) google_play_search ;;
+            43) aptoide_search ;;
+            44) github_repo_search ;;
+            45) github_code_search ;;
+            46) google_search ;;
+            47) lahelu_search ;;
+            48) yahoo_search ;;
+            49) tiktok_video_search ;;
+            50) youtube_video_search ;;
+            51) revolver_ip ;;
+            52) get_http_response ;;
+            53) find_subdo ;;
+            54) telegram_stalk ;;
+            55) github_repo_stalk ;;
+            56) jadwal_tv ;;
+            57) spotify_search ;;
+            58) gsm_get_phone ;;
+            59) dns_lookup ;;
+            60) domain_checker ;;
+            61) baidu_search ;;
+            62) crypto_news ;;
+            0) exit_script ;;
+            *) echo "Pilihan tidak valid. Silakan coba lagi."; sleep 1 ;;
+        esac
+    done
+}
+show_menu
