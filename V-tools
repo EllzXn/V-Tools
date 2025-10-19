@@ -7,6 +7,8 @@ show_header() {
     echo "========================================"
     if command -v neofetch &> /dev/null; then
         neofetch --ascii_distro "Kali"
+    elif command -v fastfetch &> /dev/null; then
+        fastfetch --logo "Kali"
     elif command -v screenfetch &> /dev/null; then
         screenfetch -D "Kali"
     else
@@ -1128,6 +1130,23 @@ crypto_news() {
     echo "$response" | jq '.'
     pause
 }
+yt_play() {
+    show_header
+    echo "=== YouTube Play ==="
+    read -p "Masukkan judul lagu yang dicari: " yt_query
+    if [ -z "$yt_query" ]; then
+        yt_query="Alamak - Rizky Febian"
+        echo "Input kosong, menggunakan contoh: $yt_query"
+    fi
+    encoded_query=$(urlencode "$yt_query")
+
+    url="https://etzy-api.vercel.app/downloader/ytplay?q=${encoded_query}"
+    echo "Mencari lagu: $yt_query"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
 show_menu() {
     while true; do
         show_header
@@ -1194,9 +1213,10 @@ show_menu() {
         echo "60. Cek Domain Tersedia"
         echo "61. Pencarian Baidu"
         echo "62. Berita Crypto"
+        echo "63. YouTube Play"
         echo "0. Keluar"
         echo ""
-        read -p "Masukkan pilihan Anda [0-62]: " choice
+        read -p "Masukkan pilihan Anda [0-63]: " choice
 
         case $choice in
             1) npm_search ;;
@@ -1261,6 +1281,7 @@ show_menu() {
             60) domain_checker ;;
             61) baidu_search ;;
             62) crypto_news ;;
+            63) yt_play ;;
             0) exit_script ;;
             *) echo "Pilihan tidak valid. Silakan coba lagi."; sleep 1 ;;
         esac
