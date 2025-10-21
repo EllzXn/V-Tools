@@ -1171,6 +1171,23 @@ nano_banana() {
     echo "$response" | jq '.'
     pause
 }
+perplexity() {
+    show_header
+    echo "=== Perplexity ==="
+    read -p "Masukkan teks untuk Perplexity (contoh: Siapa presiden Indonesia saat ini?): " perplexity_text
+    if [ -z "$perplexity_text" ]; then
+        perplexity_text="Siapa presiden Indonesia saat ini?"
+        echo "Input kosong, menggunakan contoh: $perplexity_text"
+    fi
+    encoded_text=$(urlencode "$perplexity_text")
+
+    url="https://etzy-api.vercel.app/ai/perplexity?q=${encoded_text}"
+    echo "Mengirim teks ke Perplexity: $perplexity_text"
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
 show_menu() {
     while true; do
         show_header
