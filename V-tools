@@ -1239,9 +1239,10 @@ show_menu() {
         echo "62. Berita Crypto"
         echo "63. YouTube Play"
         echo "64. Nano Banana"
+        echo "65. Perplexity"
         echo "0. Keluar"
         echo ""
-        read -p "Masukkan pilihan Anda [0-64]: " choice
+        read -p "Masukkan pilihan Anda [0-65]: " choice
 
         case $choice in
             1) npm_search ;;
@@ -1308,6 +1309,7 @@ show_menu() {
             62) crypto_news ;;
             63) yt_play ;;
             64) nano_banana ;;
+            65) perplexity ;;
             0) exit_script ;;
             *) echo "Pilihan tidak valid. Silakan coba lagi."; sleep 1 ;;
         esac
