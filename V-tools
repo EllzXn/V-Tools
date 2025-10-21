@@ -1147,6 +1147,30 @@ yt_play() {
     echo "$response" | jq '.'
     pause
 }
+nano_banana() {
+    show_header
+    echo "=== Nano Banana ==="
+    read -p "Masukkan URL Gambar: " img
+    if [ -z "$img" ]; then
+        img="https://files.catbox.moe/303m1p.jpg"
+        echo "Input kosong, menggunakan contoh: $img"
+    fi
+    read -p "Masukkan Prompt: " prompt
+    if [ -z "$prompt" ]; then
+        prompt="tambahkan kacamata"
+        echo "Input kosong, menggunakan contoh: $prompt"
+    fi
+
+    encoded_img=$(urlencode "$img")
+    encoded_prompt=$(urlencode "$prompt")
+
+    url="https://etzy-api.vercel.app/ai/img/nanobanana?prompt=${encoded_prompt}&url=${encoded_img}"
+    echo "Memproses gambar, tunggu sebentar..."
+    echo "Mengakses: $url"
+    response=$(curl -s "$url")
+    echo "$response" | jq '.'
+    pause
+}
 show_menu() {
     while true; do
         show_header
@@ -1214,9 +1238,10 @@ show_menu() {
         echo "61. Pencarian Baidu"
         echo "62. Berita Crypto"
         echo "63. YouTube Play"
+        echo "64. Nano Banana"
         echo "0. Keluar"
         echo ""
-        read -p "Masukkan pilihan Anda [0-63]: " choice
+        read -p "Masukkan pilihan Anda [0-64]: " choice
 
         case $choice in
             1) npm_search ;;
@@ -1282,6 +1307,7 @@ show_menu() {
             61) baidu_search ;;
             62) crypto_news ;;
             63) yt_play ;;
+            64) nano_banana ;;
             0) exit_script ;;
             *) echo "Pilihan tidak valid. Silakan coba lagi."; sleep 1 ;;
         esac
