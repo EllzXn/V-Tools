@@ -1,5 +1,5 @@
 # V-Tools
-<center>Tools cli fitur via api no enc, kembangin yak</center>
+<center>Tools CLI fitur via api no enc, kembangin yak. Khusus untuk Userland Kali Linux</center>
 
 ```bash 
 sudo apt install git
