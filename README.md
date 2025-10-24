@@ -2,15 +2,15 @@
 <center>Tools cli fitur via api no enc, kembangin yak</center>
 
 ```bash 
-pkg install git
-pkg install curl
-pkg install bash
-pkg install neofetch
-pkg install jq
-pkg install lolcat
-git clone https://github.com/TheyanzXD/V-Tools.git
+sudo apt install git
+sudo apt install curl
+sudo apt install bash
+sudo apt install fastfetch
+sudo apt install jq
+sudo apt install lolcat
+git clone https://github.com/EllzXn/V-Tools.git
 cd V-tools
-bash V-tools
+sudo bash V-tools
 ```
 
 
